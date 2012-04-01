@@ -71,8 +71,10 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	for (NSUInteger c = 0; c < 3; c++) {
 		for (NSUInteger i = 0; i < table_count; i++) {
 			colors[c][i] = (min[c] + ((max[c] - min[c]) * pow((float)i, gamma[c])))/(float)(table_count - 1);
-			if (!fequal(colors[c][i], display_color[c][i]))
+			if (!fequal(colors[c][i], display_color[c][i])) {
 				color_ok[c] = NO;
+				break;
+			}
 		}
 	}
 		
