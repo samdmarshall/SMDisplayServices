@@ -29,6 +29,4 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 - (NSArray *)update;
 
-- (void)updateDetected:(NSNotification *)notification;
-
 @end

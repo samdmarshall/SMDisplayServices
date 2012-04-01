@@ -23,6 +23,10 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 #import "SMDSController.h"
 #import "SMDSMonitor.h"
 
+@interface SMDSController ()
+- (void)updateDetected:(NSNotification *)notification;
+@end
+
 @implementation SMDSController
 
 @synthesize displays;
