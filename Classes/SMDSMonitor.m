@@ -55,16 +55,20 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (NSString *)detectName {
-	io_connect_t display_port = CGDisplayIOServicePort(displayid);
-	NSDictionary *data = [(NSDictionary *)IODisplayCreateInfoDictionary(display_port, kIODisplayOnlyPreferredName) autorelease];
-	NSDictionary *names = [data objectForKey:@"DisplayProductName"];
-	NSSet *name_locals = [NSSet setWithArray:[names allKeys]];
-	if ([name_locals containsObject:[[NSLocale currentLocale] localeIdentifier]]) {
-		return [names objectForKey:[[NSLocale currentLocale] localeIdentifier]];
-	} else if ([name_locals containsObject:@"en_US"]) {
-		return [names objectForKey:@"en_US"];
+	if ([name isEqualToString:@""]) {
+		io_connect_t display_port = CGDisplayIOServicePort(displayid);
+		NSDictionary *data = [(NSDictionary *)IODisplayCreateInfoDictionary(display_port, kIODisplayOnlyPreferredName) autorelease];
+		NSDictionary *names = [data objectForKey:@"DisplayProductName"];
+		NSSet *name_locals = [NSSet setWithArray:[names allKeys]];
+		if ([name_locals containsObject:[[NSLocale currentLocale] localeIdentifier]]) {
+			return [names objectForKey:[[NSLocale currentLocale] localeIdentifier]];
+		} else if ([name_locals containsObject:@"en_US"]) {
+			return [names objectForKey:@"en_US"];
+		} else {
+			return [names objectForKey:[[names allKeys] objectAtIndex:0]];
+		}
 	} else {
-		return [names objectForKey:[[names allKeys] objectAtIndex:0]];
+		return name;
 	}
 }
 
