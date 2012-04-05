@@ -4,4 +4,10 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+
+	#if defined(CONFIGURATION_Debug)
+		#define NSLog( s, ... ) NSLog(@"[%p %@:(%d)] %@ %@", self, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithUTF8String:__PRETTY_FUNCTION__], [NSString stringWithFormat:(s), ##__VA_ARGS__])
+	#else
+	    #define NSLog( s, ... ) 
+	#endif
 #endif

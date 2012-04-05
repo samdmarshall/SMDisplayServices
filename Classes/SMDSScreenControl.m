@@ -28,21 +28,27 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @implementation SMDSScreenControl
 
 - (void)setDisplayViews:(NSArray *)displays {
+	[[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	UInt32 left_index = IndexOfLeftMostDisplay(displays);
-	UInt32 top_index = IndexOfTopMostDisplay(displays);	
-	CGSize delta = CGSizeMake([[displays objectAtIndex:left_index] bounds].origin.x, [[displays objectAtIndex:top_index] bounds].origin.y);
+	UInt32 top_index = IndexOfTopMostDisplay(displays);
+	CGSize delta = CGSizeMake(fabs([[displays objectAtIndex:left_index] bounds].origin.x), fabs([[displays objectAtIndex:top_index] bounds].origin.y));	
 	for (SMDSMonitor *screen in displays) {
 		SMDSScreenView *a_screen = [[[SMDSScreenView alloc] initWithFrame:ReduceFrameWithDelta(screen.bounds, delta) isMain:screen.isMain] autorelease];
 		[self addSubview:a_screen];
 	}
+	[self setNeedsDisplay:YES];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	NSPoint loc = [theEvent locationInWindow];
+	NSPoint vloc = [self convertPoint:[theEvent locationInWindow] fromView:[self superview]];
 	for (SMDSScreenView *view in [self subviews]) {
-		view.isSelected = [view mouse:loc inRect:view.bounds];
+		view.isSelected = [view mouse:vloc inRect:view.frame];
 	}
 	[self setNeedsDisplay:YES];
+}
+
+- (BOOL)isFlipped {
+	return YES;
 }
 
 @end
