@@ -21,10 +21,20 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 */
 
 #import <Cocoa/Cocoa.h>
+#import "SMDSDisplaySelect.h"
 
-@interface SMDSScreenControl : NSControl {}
+@interface SMDSScreenControl : NSControl {
+	SMDSDisplaySelect *displayHighlight;
+	CGSize delta;
+	CGRect global;
+}
+@property (nonatomic, readonly) SMDSDisplaySelect *displayHighlight;
+@property (nonatomic, readonly) CGSize delta;
+@property (nonatomic, readonly) CGRect global;
 
+- (void)setHightlight:(BOOL)toggle onDisplay:(NSUInteger)displayid;
 - (void)setDisplayViews:(NSArray *)displays;
 - (void)mouseDown:(NSEvent *)theEvent;
+- (void)mouseUp:(NSEvent *)theEvent;
 
 @end

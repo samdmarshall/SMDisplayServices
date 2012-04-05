@@ -27,24 +27,55 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 @implementation SMDSScreenControl
 
+@synthesize displayHighlight;
+@synthesize delta;
+@synthesize global;
+
+- (id)initWithFrame:(NSRect)rect {
+	self = [super initWithFrame:rect];
+	if (self) {
+		displayHighlight = [[SMDSDisplaySelect alloc] initWithContentRect:CGRectMake(0,0,10000,10000) styleMask:NSBorderlessWindowMask backing:NSBackingStoreRetained defer:NO];
+		[displayHighlight setLevel:NSTornOffMenuWindowLevel];
+	}
+	return self;
+}
+
 - (void)setDisplayViews:(NSArray *)displays {
 	[[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-	UInt32 left_index = IndexOfLeftMostDisplay(displays);
-	UInt32 top_index = IndexOfTopMostDisplay(displays);
-	CGSize delta = CGSizeMake(fabs([[displays objectAtIndex:left_index] bounds].origin.x), fabs([[displays objectAtIndex:top_index] bounds].origin.y));	
+	delta = GetDelta(displays);
+	global = GetGlobalDisplaySpace(displays);
 	for (SMDSMonitor *screen in displays) {
-		SMDSScreenView *a_screen = [[[SMDSScreenView alloc] initWithFrame:ReduceFrameWithDelta(screen.bounds, delta) isMain:screen.isMain] autorelease];
+		SMDSScreenView *a_screen = [[[SMDSScreenView alloc] initWithFrame:ReduceFrameWithDelta(screen.bounds, delta) withID:screen.displayid] autorelease];
 		[self addSubview:a_screen];
 	}
 	[self setNeedsDisplay:YES];
+}
+
+- (void)setHightlight:(BOOL)toggle onDisplay:(NSUInteger)displayid {
+	NSLog(@"hello from %llu",displayid);
+	if (toggle) {
+		CGRect bounds = GetDisplayRectForDisplayInSpace(displayid,global);		
+		[displayHighlight setFrame:bounds display:YES];
+		[displayHighlight orderFrontRegardless];
+	} else {
+		[displayHighlight orderOut:self];
+	}
+	[displayHighlight update];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	NSPoint vloc = [self convertPoint:[theEvent locationInWindow] fromView:[self superview]];
 	for (SMDSScreenView *view in [self subviews]) {
 		view.isSelected = [view mouse:vloc inRect:view.frame];
+		if (view.isSelected) {
+			[self setHightlight:YES onDisplay:[view displayid]];
+		}
 	}
 	[self setNeedsDisplay:YES];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent {
+	[self setHightlight:NO onDisplay:0];
 }
 
 - (BOOL)isFlipped {
