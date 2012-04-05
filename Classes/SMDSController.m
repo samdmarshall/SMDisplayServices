@@ -35,7 +35,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 - (id)init {
 	self = [super init];
 	if (self) {
-		self.displayview = [[SMDSScreenControl alloc] initWithFrame:CGRectMake(0,0,0,0)];
+		self.displayview = [[SMDSScreenControl alloc] initWithFrame:CGRectMake(0,0,500,200)];
 		self.displays = [self update];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDetected:) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 		[self renderDisplays];
