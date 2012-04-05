@@ -22,7 +22,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface SMDSGamma : NSObject {
 	NSUInteger dID;
 	CGGammaValue redMin, redMax, redGamma;

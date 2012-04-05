@@ -30,18 +30,22 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @implementation SMDSController
 
 @synthesize displays;
+@synthesize displayview;
 
 - (id)init {
 	self = [super init];
 	if (self) {
+		self.displayview = [[SMDSScreenControl alloc] initWithFrame:CGRectMake(0,0,0,0)];
 		self.displays = [self update];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDetected:) name:NSApplicationDidChangeScreenParametersNotification object:nil];
+		[self renderDisplays];
 	}
 	return self;
 }
 
 - (void)updateDetected:(NSNotification *)notification {
 	self.displays = [self update];
+	[self renderDisplays];
 }
 
 - (NSArray *)update {
@@ -51,6 +55,15 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 		[current_displays addObject:monitor];
 	}
 	return current_displays;
+}
+
+- (void)renderDisplays {
+	[displayview setDisplayViews:displays];
+}
+
+- (void)dealloc {
+	[displayview release];
+	[super dealloc];
 }
 
 @end

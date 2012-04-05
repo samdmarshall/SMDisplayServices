@@ -10,6 +10,8 @@
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		224264061527D41C005B2E0F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224264051527D41C005B2E0F /* IOKit.framework */; };
 		2242641A1527D4DC005B2E0F /* SMDSGamma.m in Sources */ = {isa = PBXBuildFile; fileRef = 224264191527D4DC005B2E0F /* SMDSGamma.m */; };
+		226EA36E152D315F00766E2E /* SMDSScreenControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 226EA36B152D315F00766E2E /* SMDSScreenControl.m */; };
+		226EA36F152D315F00766E2E /* SMDSScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 226EA36D152D315F00766E2E /* SMDSScreenView.m */; };
 		22B2F0EC1527C66B0094C6E6 /* SMDSMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B2F0EB1527C66B0094C6E6 /* SMDSMonitor.m */; };
 		22B2F0F11527C6930094C6E6 /* SMDSController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B2F0F01527C6930094C6E6 /* SMDSController.m */; };
 		22B2F0FA1527C76D0094C6E6 /* NSScreen+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B2F0F91527C76D0094C6E6 /* NSScreen+Additions.m */; };
@@ -27,13 +29,18 @@
 		224264051527D41C005B2E0F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		224264181527D4DC005B2E0F /* SMDSGamma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMDSGamma.h; path = Classes/SMDSGamma.h; sourceTree = "<group>"; };
 		224264191527D4DC005B2E0F /* SMDSGamma.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMDSGamma.m; path = Classes/SMDSGamma.m; sourceTree = "<group>"; };
-		2242644D1527D8AF005B2E0F /* SMDSMaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDSMaths.h; sourceTree = "<group>"; };
+		2242644D1527D8AF005B2E0F /* SMDSMaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMDSMaths.h; path = Classes/SMDSMaths.h; sourceTree = "<group>"; };
+		226EA36A152D315F00766E2E /* SMDSScreenControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMDSScreenControl.h; path = Classes/SMDSScreenControl.h; sourceTree = "<group>"; };
+		226EA36B152D315F00766E2E /* SMDSScreenControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMDSScreenControl.m; path = Classes/SMDSScreenControl.m; sourceTree = "<group>"; };
+		226EA36C152D315F00766E2E /* SMDSScreenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMDSScreenView.h; path = ../../Desktop/SMDisplayServices/SMDSScreenView.h; sourceTree = SOURCE_ROOT; };
+		226EA36D152D315F00766E2E /* SMDSScreenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMDSScreenView.m; path = ../../Desktop/SMDisplayServices/SMDSScreenView.m; sourceTree = SOURCE_ROOT; };
+		226EA3CB152D347600766E2E /* SMDSDisplayCalculations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDSDisplayCalculations.h; sourceTree = "<group>"; };
 		22B2F0EA1527C66B0094C6E6 /* SMDSMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMDSMonitor.h; path = Classes/SMDSMonitor.h; sourceTree = "<group>"; };
 		22B2F0EB1527C66B0094C6E6 /* SMDSMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMDSMonitor.m; path = Classes/SMDSMonitor.m; sourceTree = "<group>"; };
 		22B2F0EF1527C6930094C6E6 /* SMDSController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMDSController.h; path = Classes/SMDSController.h; sourceTree = "<group>"; };
 		22B2F0F01527C6930094C6E6 /* SMDSController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMDSController.m; path = Classes/SMDSController.m; sourceTree = "<group>"; };
-		22B2F0F81527C76D0094C6E6 /* NSScreen+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScreen+Additions.h"; sourceTree = "<group>"; };
-		22B2F0F91527C76D0094C6E6 /* NSScreen+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScreen+Additions.m"; sourceTree = "<group>"; };
+		22B2F0F81527C76D0094C6E6 /* NSScreen+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSScreen+Additions.h"; path = "Classes/NSScreen+Additions.h"; sourceTree = "<group>"; };
+		22B2F0F91527C76D0094C6E6 /* NSScreen+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSScreen+Additions.m"; path = "Classes/NSScreen+Additions.m"; sourceTree = "<group>"; };
 		22B2F1101527C9500094C6E6 /* SMDSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMDSConstants.h; path = Classes/SMDSConstants.h; sourceTree = "<group>"; };
 		256AC3D80F4B6AC300CF3369 /* SMDisplayServicesAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDisplayServicesAppDelegate.h; sourceTree = "<group>"; };
 		256AC3D90F4B6AC300CF3369 /* SMDisplayServicesAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMDisplayServicesAppDelegate.m; sourceTree = "<group>"; };
@@ -61,6 +68,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				226EA36A152D315F00766E2E /* SMDSScreenControl.h */,
+				226EA36B152D315F00766E2E /* SMDSScreenControl.m */,
+				226EA36C152D315F00766E2E /* SMDSScreenView.h */,
+				226EA36D152D315F00766E2E /* SMDSScreenView.m */,
 				22B2F0F81527C76D0094C6E6 /* NSScreen+Additions.h */,
 				22B2F0F91527C76D0094C6E6 /* NSScreen+Additions.m */,
 				256AC3D80F4B6AC300CF3369 /* SMDisplayServicesAppDelegate.h */,
@@ -73,6 +84,7 @@
 				224264181527D4DC005B2E0F /* SMDSGamma.h */,
 				224264191527D4DC005B2E0F /* SMDSGamma.m */,
 				2242644D1527D8AF005B2E0F /* SMDSMaths.h */,
+				226EA3CB152D347600766E2E /* SMDSDisplayCalculations.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -215,6 +227,8 @@
 				22B2F0F11527C6930094C6E6 /* SMDSController.m in Sources */,
 				22B2F0FA1527C76D0094C6E6 /* NSScreen+Additions.m in Sources */,
 				2242641A1527D4DC005B2E0F /* SMDSGamma.m in Sources */,
+				226EA36E152D315F00766E2E /* SMDSScreenControl.m in Sources */,
+				226EA36F152D315F00766E2E /* SMDSScreenView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +291,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -290,6 +306,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

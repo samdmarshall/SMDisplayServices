@@ -17,7 +17,7 @@
 	// Insert code here to initialize your application 
 	
 	SMDSController *controller = [[SMDSController alloc] init];
-	
+	[[window contentView] addSubview:controller.displayview];
 }
 
 @end

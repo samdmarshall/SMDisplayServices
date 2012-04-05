@@ -1,11 +1,10 @@
-/*
- *  SMDSMaths.h
- *  SMDisplayServices
- *
- *  Created by Sam Marshall on 3/31/12.
- *  Copyright 2012 Sam Marshall. All rights reserved.
- *
- */
+//
+//  SMDSScreenControl.h
+//  SMDisplayServices
+//
+//  Created by Sam Marshall on 3/31/12.
+//  Copyright 2012 Sam Marshall. All rights reserved.
+//
 
 /*
 Copyright (c) 2010-2012, Sam Marshall
@@ -21,9 +20,11 @@ This product includes software developed by the Sam Marshall.
 THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Sam Marshall BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <math.h>
+#import <Cocoa/Cocoa.h>
 
-BOOL fequal(float a, float b) {
-	return (fabs(a-b) < FLT_EPSILON);
-}
+@interface SMDSScreenControl : NSControl {}
 
+- (void)setDisplayViews:(NSArray *)displays;
+- (void)mouseDown:(NSEvent *)theEvent;
+
+@end

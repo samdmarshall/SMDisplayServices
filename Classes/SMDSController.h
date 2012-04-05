@@ -21,12 +21,16 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 */
 
 #import <Cocoa/Cocoa.h>
+#import "SMDSScreenControl.h"
 
 @interface SMDSController : NSObject {
 	NSArray *displays;
+	SMDSScreenControl *displayview;
 }
 @property (nonatomic, retain) NSArray *displays;
+@property (nonatomic, retain) SMDSScreenControl *displayview;
 
 - (NSArray *)update;
+- (void)renderDisplays;
 
 @end
