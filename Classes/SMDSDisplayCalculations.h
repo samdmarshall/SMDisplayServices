@@ -24,7 +24,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 #import "SMDSConstants.h"
 
 CGRect ReduceFrameWithDelta(CGRect rect, CGSize size) {
-	return CGRectMake((rect.origin.x+fabs(size.width))*kDefaultDisplayScale, (rect.origin.y+fabs(size.height))*kDefaultDisplayScale, rect.size.width*kDefaultDisplayScale, rect.size.height*kDefaultDisplayScale);
+	return CGRectMake(floor((rect.origin.x+fabs(size.width))*kDefaultDisplayScale), floor((rect.origin.y+fabs(size.height))*kDefaultDisplayScale), floor(rect.size.width*kDefaultDisplayScale), floor(rect.size.height*kDefaultDisplayScale));
 }
 
 UInt32 IndexOfTopMostDisplay(NSArray *displays) {

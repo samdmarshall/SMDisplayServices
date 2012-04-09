@@ -85,13 +85,25 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-	CGFloat new_x = self.frame.origin.x+theEvent.deltaX;
-	CGFloat new_y = self.frame.origin.y+theEvent.deltaY;
+	CGFloat x = 0.f;
+	CGFloat y = 0.f;
+	
+	CGFloat dX = fabs(theEvent.deltaX);
+	CGFloat dY = fabs(theEvent.deltaY);
+	if (dX > dY)
+		x = theEvent.deltaX;
+	else
+		y = theEvent.deltaY;
+	
+	CGFloat new_x = self.frame.origin.x+x;
+	CGFloat new_y = self.frame.origin.y+y;
+	
+	NSArray *snapto = [self.superview viewSnap:self];
 	
 	CGRect new_position = CGRectMake(new_x, new_y, self.frame.size.width, self.frame.size.height);
 	BOOL drag_ok = [self.superview willDisplay:self collide:new_position];
-	
-	if (!drag_ok) {
+	BOOL snap_ok = [self.superview snap:new_position toBounds:snapto];	
+	if (!drag_ok && snap_ok) {
 		[self setFrame:new_position];
 		[self setNeedsDisplay:YES];
 	}
@@ -99,18 +111,16 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 - (void)mouseUp:(NSEvent *)theEvent {
 	[self.superview mouseUp:theEvent];
-	//NSLog(@"%f %f", ox, oy);
-	//NSLog(@"%f %f",self.frame.origin.x, self.frame.origin.y);
 	
 	CGFloat new_x = self.frame.origin.x;
 	CGFloat new_y = self.frame.origin.y;
 	
 	if (!FloatEqual(ox,new_x) || !FloatEqual(oy,new_y)) {
 		CGDisplayConfigRef config;
-		if (CGBeginDisplayConfiguration(&config) == kCGErrorSuccess) {
-			CGConfigureDisplayOrigin( config, displayid, (int32_t)(new_x/kDefaultDisplayScale), (int32_t)(new_y/kDefaultDisplayScale) );
-			CGCompleteDisplayConfiguration(config, kCGConfigureForSession );
-		}
+		CGError code = CGBeginDisplayConfiguration(&config);
+		if (code == kCGErrorSuccess)
+			CGConfigureDisplayOrigin(config, displayid, (int32_t)(new_x/kDefaultDisplayScale), (int32_t)(new_y/kDefaultDisplayScale) );
+		CGCompleteDisplayConfiguration(config, kCGConfigureForSession);
 	}
 }
 

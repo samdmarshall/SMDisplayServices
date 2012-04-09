@@ -28,18 +28,17 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	SMDSDisplaySelect *displayHighlight;
 	CGSize delta;
 	CGRect global;
-	SMDSScreenView *colliding_view;
 }
 @property (nonatomic, readonly) SMDSDisplaySelect *displayHighlight;
 @property (nonatomic, readonly) CGSize delta;
 @property (nonatomic, readonly) CGRect global;
-@property (nonatomic, readonly) SMDSScreenView *colliding_view;
 
 - (void)setHightlight:(BOOL)toggle onDisplay:(NSUInteger)displayid;
 - (void)setDisplayViews:(NSArray *)displays;
 - (void)mouseDown:(NSEvent *)theEvent;
 - (void)mouseUp:(NSEvent *)theEvent;
 - (BOOL)willDisplay:(SMDSScreenView *)dragged_display collide:(CGRect)display_rect;
-- (NSArray *)computeCollision:(CGPoint)one point:(CGPoint)two checkInterval:(CGFloat)interval;
+- (BOOL)snap:(CGRect)view toBounds:(NSArray *)array;
+- (NSArray *)viewSnap:(SMDSScreenView *)colliding_view;
 
 @end
