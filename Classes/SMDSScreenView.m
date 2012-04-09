@@ -99,8 +99,8 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 - (void)mouseUp:(NSEvent *)theEvent {
 	[self.superview mouseUp:theEvent];
-	NSLog(@"%f %f", ox, oy);
-	NSLog(@"%f %f",self.frame.origin.x, self.frame.origin.y);
+	//NSLog(@"%f %f", ox, oy);
+	//NSLog(@"%f %f",self.frame.origin.x, self.frame.origin.y);
 	
 	CGFloat new_x = self.frame.origin.x;
 	CGFloat new_y = self.frame.origin.y;
