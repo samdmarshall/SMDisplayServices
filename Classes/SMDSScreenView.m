@@ -75,4 +75,32 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	return YES;
 }
 
+- (void)mouseDragged:(NSEvent *)theEvent {
+	CGFloat new_x = self.frame.origin.x+theEvent.deltaX;
+	CGFloat new_y = self.frame.origin.y+theEvent.deltaY;
+	
+	CGRect new_position = CGRectMake(new_x, new_y, self.frame.size.width, self.frame.size.height);
+	BOOL drag_ok = [self.superview willDisplay:self collide:new_position];
+	
+	if (!drag_ok) {
+		[self setFrame:new_position];
+		[self setNeedsDisplay:YES];
+	}
+}
+
+- (void)mouseUp:(NSEvent *)theEvent {
+	CGFloat new_x = self.frame.origin.x+theEvent.deltaX;
+	CGFloat new_y = self.frame.origin.y+theEvent.deltaY;
+	
+	CGDisplayConfigRef config;
+	if (CGBeginDisplayConfiguration(&config) == kCGErrorSuccess) {
+		CGConfigureDisplayOrigin( config, displayid, (int32_t)(new_x/kDefaultDisplayScale), (int32_t)(new_y/kDefaultDisplayScale) );
+		CGCompleteDisplayConfiguration(config, kCGConfigureForSession );
+	}
+}
+
+- (void)dealloc {
+	[super dealloc];
+}
+
 @end

@@ -22,7 +22,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 #import "SMDSDisplayCalculations.h"
 #import "SMDSScreenControl.h"
-#import "SMDSScreenView.h"
 #import "SMDSMonitor.h"
 
 @implementation SMDSScreenControl
@@ -30,11 +29,12 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @synthesize displayHighlight;
 @synthesize delta;
 @synthesize global;
+@synthesize colliding_view;
 
 - (id)initWithFrame:(NSRect)rect {
 	self = [super initWithFrame:rect];
 	if (self) {
-		displayHighlight = [[SMDSDisplaySelect alloc] initWithContentRect:CGRectMake(0,0,10000,10000) styleMask:NSBorderlessWindowMask backing:NSBackingStoreRetained defer:NO];
+		displayHighlight = [[SMDSDisplaySelect alloc] initWithContentRect:CGRectMake(0,0,0,0) styleMask:NSBorderlessWindowMask backing:NSBackingStoreRetained defer:NO];
 		[displayHighlight setLevel:NSTornOffMenuWindowLevel];
 	}
 	return self;
@@ -58,6 +58,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 		[displayHighlight orderFrontRegardless];
 	} else {
 		[displayHighlight orderOut:self];
+		[displayHighlight setFrame:CGRectMake(0,0,0,0) display:YES];
 	}
 }
 
@@ -78,6 +79,63 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 - (BOOL)isFlipped {
 	return YES;
+}
+
+- (NSArray *)computeCollision:(CGPoint)one point:(CGPoint)two checkInterval:(CGFloat)interval {
+	NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+	
+	CGFloat dist = (one.y-two.y)/interval;
+	for (NSUInteger i = 0; i < (NSUInteger)interval; i++) {
+		CGPoint check = { two.x, two.y+(dist*((float)i+1.0)) };
+		[array addObject:[NSValue valueWithPoint:check]];
+	}
+	
+	return array;
+}
+
+- (BOOL)willDisplay:(SMDSScreenView *)dragged_display collide:(CGRect)display_rect {
+	BOOL status = NO;
+	CGPoint ul = { display_rect.origin.x, display_rect.origin.y };
+	CGPoint bl = { display_rect.origin.x, display_rect.origin.y+display_rect.size.height };
+	CGPoint ur = { display_rect.origin.x+display_rect.size.width, display_rect.origin.y };
+	CGPoint br = { display_rect.origin.x+display_rect.size.width, display_rect.origin.y+display_rect.size.height };
+	
+	CGFloat left_checks = floor((bl.y - ul.y)/kMinimumDisplayHeight);
+	CGFloat top_checks = floor((ur.x - ul.x)/kMinimumDisplayWidth);
+	CGFloat right_checks = floor((br.y - ur.y)/kMinimumDisplayHeight);
+	CGFloat bottom_checks = floor((br.x - bl.x)/kMinimumDisplayWidth);
+	
+	NSMutableArray *points_array = [[NSMutableArray alloc] init];
+	
+	[points_array addObject:[NSValue valueWithPoint:ul]];
+	[points_array addObject:[NSValue valueWithPoint:bl]];
+	[points_array addObject:[NSValue valueWithPoint:ur]];
+	[points_array addObject:[NSValue valueWithPoint:br]];
+	
+	[points_array addObjectsFromArray:[self computeCollision:bl point:ul checkInterval:left_checks]];
+	[points_array addObjectsFromArray:[self computeCollision:ur point:ul checkInterval:top_checks]];
+	[points_array addObjectsFromArray:[self computeCollision:br point:ur checkInterval:right_checks]];
+	[points_array addObjectsFromArray:[self computeCollision:br point:bl checkInterval:bottom_checks]];
+
+	for (SMDSScreenView *view in [self subviews]) {
+		if (view != dragged_display) {
+			for (NSValue *val in points_array) {
+				status = CGRectContainsPoint(view.frame, [val pointValue]);
+				if (status) break;
+			}
+		}
+	}
+	
+	[points_array release];
+	
+	return status;
+	
+}
+
+- (void)dealloc {
+	[colliding_view release];
+	[displayHighlight release];
+	[super dealloc];
 }
 
 @end

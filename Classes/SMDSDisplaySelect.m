@@ -21,6 +21,10 @@
 	return self;
 }
 
+- (void)dealloc {
+	[super dealloc];
+}
+
 @end
 
 @implementation SMDSDisplaySelectBorder
@@ -33,8 +37,11 @@
 	CGContextFillRect(context, dirtyRect);
 	CGContextSetLineWidth(context, kSelectionHighlightBorder);
 	CGContextSetRGBStrokeColor(context, 1.0, 0, 0, 1.0);
-	CGContextStrokeRect(context, dirtyRect);
-	
+	CGContextStrokeRect(context, dirtyRect);	
+}
+
+- (void)dealloc {
+	[super dealloc];
 }
 
 @end
