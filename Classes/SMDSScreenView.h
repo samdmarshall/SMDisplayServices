@@ -26,10 +26,14 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	BOOL isMain;
 	BOOL isSelected;
 	NSUInteger displayid;
+	CGFloat ox;
+	CGFloat oy;
 }
 @property (nonatomic, readonly) BOOL isMain;
 @property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, readonly) NSUInteger displayid;
+@property (nonatomic, readonly) CGFloat ox;
+@property (nonatomic, readonly) CGFloat oy;
 
 - (id)initWithFrame:(CGRect)rect withID:(NSUInteger)did;
 

@@ -23,6 +23,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 #import <math.h>
 
-BOOL FloatEqual(float a, float b) {
+inline BOOL FloatEqual(float a, float b) {
 	return (fabs(a-b) < FLT_EPSILON);
 }

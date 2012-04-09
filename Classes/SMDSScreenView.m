@@ -22,12 +22,15 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 #import "SMDSScreenView.h"
 #import "SMDSConstants.h"
+#import "SMDSMaths.h"
 
 @implementation SMDSScreenView
 
 @synthesize isMain;
 @synthesize isSelected;
 @synthesize displayid;
+@synthesize ox;
+@synthesize oy;
 
 - (id)initWithFrame:(CGRect)rect withID:(NSUInteger)did {
 	self = [super initWithFrame:rect];
@@ -75,6 +78,12 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	return YES;
 }
 
+- (void)mouseDown:(NSEvent *)theEvent {
+	ox = self.frame.origin.x;
+	oy = self.frame.origin.y;
+	[self.superview mouseDown:theEvent];
+}
+
 - (void)mouseDragged:(NSEvent *)theEvent {
 	CGFloat new_x = self.frame.origin.x+theEvent.deltaX;
 	CGFloat new_y = self.frame.origin.y+theEvent.deltaY;
@@ -89,13 +98,19 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-	CGFloat new_x = self.frame.origin.x+theEvent.deltaX;
-	CGFloat new_y = self.frame.origin.y+theEvent.deltaY;
+	[self.superview mouseUp:theEvent];
+	NSLog(@"%f %f", ox, oy);
+	NSLog(@"%f %f",self.frame.origin.x, self.frame.origin.y);
 	
-	CGDisplayConfigRef config;
-	if (CGBeginDisplayConfiguration(&config) == kCGErrorSuccess) {
-		CGConfigureDisplayOrigin( config, displayid, (int32_t)(new_x/kDefaultDisplayScale), (int32_t)(new_y/kDefaultDisplayScale) );
-		CGCompleteDisplayConfiguration(config, kCGConfigureForSession );
+	CGFloat new_x = self.frame.origin.x;
+	CGFloat new_y = self.frame.origin.y;
+	
+	if (!FloatEqual(ox,new_x) || !FloatEqual(oy,new_y)) {
+		CGDisplayConfigRef config;
+		if (CGBeginDisplayConfiguration(&config) == kCGErrorSuccess) {
+			CGConfigureDisplayOrigin( config, displayid, (int32_t)(new_x/kDefaultDisplayScale), (int32_t)(new_y/kDefaultDisplayScale) );
+			CGCompleteDisplayConfiguration(config, kCGConfigureForSession );
+		}
 	}
 }
 
