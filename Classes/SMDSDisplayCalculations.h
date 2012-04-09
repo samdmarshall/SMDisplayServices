@@ -97,11 +97,8 @@ CGRect GetGlobalDisplaySpace(NSArray *displays) {
 
 CGRect GetDisplayRectForDisplayInSpace(NSUInteger displayid, CGRect global) {
 	CGRect bounds = CGDisplayBounds(displayid);
-	//printf("%f %f %f %f\n",bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 	CGRect o_bounds = CGDisplayBounds(CGMainDisplayID());
-	//printf("%f %f %f %f\n",o_bounds.origin.x, o_bounds.origin.y, o_bounds.size.width, o_bounds.size.height);
 	CGPoint new_origin = CGPointMake(o_bounds.origin.x,o_bounds.origin.y+o_bounds.size.height);
-	CGRect new = CGRectMake(bounds.origin.x+new_origin.x,(new_origin.y+(o_bounds.origin.y-bounds.origin.y)-bounds.size.height),bounds.size.width,bounds.size.height);
-	//printf("%f %f %f %f\n",new.origin.x, new.origin.y, new.size.width, new.size.height);
+	CGRect new = CGRectMake(bounds.origin.x+new_origin.x, (new_origin.y+(o_bounds.origin.y-bounds.origin.y)-bounds.size.height), bounds.size.width, bounds.size.height);
 	return new;
 }
