@@ -22,7 +22,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 #import <Cocoa/Cocoa.h>
 #import "SMDSDisplaySelect.h"
-#import "SMDSScreenView.h"
 
 @interface SMDSScreenControl : NSControl {
 	SMDSDisplaySelect *displayHighlight;
@@ -37,8 +36,9 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 - (void)setDisplayViews:(NSArray *)displays;
 - (void)mouseDown:(NSEvent *)theEvent;
 - (void)mouseUp:(NSEvent *)theEvent;
-- (BOOL)willDisplay:(SMDSScreenView *)dragged_display collide:(CGRect)display_rect;
+- (BOOL)willDisplay:(id)dragged_display collide:(CGRect)display_rect;
 - (BOOL)snap:(CGRect)view toBounds:(NSArray *)array;
-- (NSArray *)viewSnap:(SMDSScreenView *)colliding_view;
+- (NSArray *)viewSnap:(id)colliding_view;
+- (CGPoint)getDeltaFromMain:(id)view;
 
 @end

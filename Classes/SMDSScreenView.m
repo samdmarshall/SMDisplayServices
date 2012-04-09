@@ -23,6 +23,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 #import "SMDSScreenView.h"
 #import "SMDSConstants.h"
 #import "SMDSMaths.h"
+#import "SMDSScreenControl.h"
 
 @implementation SMDSScreenView
 
@@ -98,11 +99,11 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	CGFloat new_x = self.frame.origin.x+x;
 	CGFloat new_y = self.frame.origin.y+y;
 	
-	NSArray *snapto = [self.superview viewSnap:self];
+	NSArray *snapto = [(SMDSScreenControl *)self.superview viewSnap:self];
 	
 	CGRect new_position = CGRectMake(new_x, new_y, self.frame.size.width, self.frame.size.height);
-	BOOL drag_ok = [self.superview willDisplay:self collide:new_position];
-	BOOL snap_ok = [self.superview snap:new_position toBounds:snapto];	
+	BOOL drag_ok = [(SMDSScreenControl *)self.superview willDisplay:self collide:new_position];
+	BOOL snap_ok = [(SMDSScreenControl *)self.superview snap:new_position toBounds:snapto];	
 	if (!drag_ok && snap_ok) {
 		[self setFrame:new_position];
 		[self setNeedsDisplay:YES];
@@ -114,12 +115,20 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	
 	CGFloat new_x = self.frame.origin.x;
 	CGFloat new_y = self.frame.origin.y;
-	
+		
 	if (!FloatEqual(ox,new_x) || !FloatEqual(oy,new_y)) {
 		CGDisplayConfigRef config;
 		CGError code = CGBeginDisplayConfiguration(&config);
-		if (code == kCGErrorSuccess)
-			CGConfigureDisplayOrigin(config, displayid, (int32_t)(new_x/kDefaultDisplayScale), (int32_t)(new_y/kDefaultDisplayScale) );
+		if (code == kCGErrorSuccess) {
+			CGRect bounds = CGDisplayBounds(displayid);
+			int32_t xorigin = (int32_t)(new_x/kDefaultDisplayScale);
+			int32_t yorigin = (int32_t)(new_y/kDefaultDisplayScale);
+			CGPoint delta = [(SMDSScreenControl *)self.superview getDeltaFromMain:self];
+			NSLog(@"%i %i", (int32_t)delta.x, (int32_t)delta.y);
+			NSLog(@"%i %i *** %i %i", (int32_t)(ox/kDefaultDisplayScale), (int32_t)(oy/kDefaultDisplayScale), xorigin, yorigin);
+			
+			CGConfigureDisplayOrigin(config, displayid, xorigin, yorigin);
+		}
 		CGCompleteDisplayConfiguration(config, kCGConfigureForSession);
 	}
 }

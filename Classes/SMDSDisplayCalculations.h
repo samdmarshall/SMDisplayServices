@@ -23,11 +23,11 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 #import "SMDSConstants.h"
 
-CGRect ReduceFrameWithDelta(CGRect rect, CGSize size) {
-	return CGRectMake(floor((rect.origin.x+fabs(size.width))*kDefaultDisplayScale), floor((rect.origin.y+fabs(size.height))*kDefaultDisplayScale), floor(rect.size.width*kDefaultDisplayScale), floor(rect.size.height*kDefaultDisplayScale));
+static inline CGRect ReduceFrameWithDelta(CGRect rect, CGSize size) {
+	return CGRectMake(roundf((rect.origin.x+fabs(size.width))*kDefaultDisplayScale), roundf((rect.origin.y+fabs(size.height))*kDefaultDisplayScale), roundf(rect.size.width*kDefaultDisplayScale), roundf(rect.size.height*kDefaultDisplayScale));
 }
 
-UInt32 IndexOfTopMostDisplay(NSArray *displays) {
+static inline UInt32 IndexOfTopMostDisplay(NSArray *displays) {
 	UInt32 index = 0;
 	CGFloat high = 0.f;
 	for (UInt32 i = 0; i < [displays count]; i++) {
@@ -40,7 +40,7 @@ UInt32 IndexOfTopMostDisplay(NSArray *displays) {
 	return index;
 }
 
-UInt32 IndexOfBottomMostDisplay(NSArray *displays) {
+static inline UInt32 IndexOfBottomMostDisplay(NSArray *displays) {
 	UInt32 index = 0;
 	CGFloat low = 0.f;
 	for (UInt32 i = 0; i < [displays count]; i++) {
@@ -53,7 +53,7 @@ UInt32 IndexOfBottomMostDisplay(NSArray *displays) {
 	return index;
 }
 
-UInt32 IndexOfLeftMostDisplay(NSArray *displays) {
+static inline UInt32 IndexOfLeftMostDisplay(NSArray *displays) {
 	UInt32 index = 0;
 	CGFloat wide = 0.f;
 	for (UInt32 i = 0; i < [displays count]; i++) {
@@ -66,7 +66,7 @@ UInt32 IndexOfLeftMostDisplay(NSArray *displays) {
 	return index;
 }
 
-UInt32 IndexOfRightMostDisplay(NSArray *displays) {
+static inline UInt32 IndexOfRightMostDisplay(NSArray *displays) {
 	UInt32 index = 0;
 	CGFloat wide_right = 0.f;
 	for (UInt32 i = 0; i < [displays count]; i++) {
@@ -79,13 +79,13 @@ UInt32 IndexOfRightMostDisplay(NSArray *displays) {
 	return index;
 }
 
-CGSize GetDelta(NSArray *displays) {
+static inline CGSize GetDelta(NSArray *displays) {
 	UInt32 left_index = IndexOfLeftMostDisplay(displays);
 	UInt32 top_index = IndexOfTopMostDisplay(displays);
 	return CGSizeMake([[displays objectAtIndex:left_index] bounds].origin.x, [[displays objectAtIndex:top_index] bounds].origin.y);
 }
 
-CGRect GetGlobalDisplaySpace(NSArray *displays) {
+static inline CGRect GetGlobalDisplaySpace(NSArray *displays) {
 	UInt32 left_index = IndexOfLeftMostDisplay(displays);
 	UInt32 top_index = IndexOfTopMostDisplay(displays);
 	UInt32 bottom_index = IndexOfBottomMostDisplay(displays);
@@ -95,7 +95,7 @@ CGRect GetGlobalDisplaySpace(NSArray *displays) {
 	return CGRectMake([[displays objectAtIndex:left_index] bounds].origin.x, [[displays objectAtIndex:top_index] bounds].origin.y, width, height);
 }
 
-CGRect GetDisplayRectForDisplayInSpace(NSUInteger displayid, CGRect global) {
+static inline CGRect GetDisplayRectForDisplayInSpace(NSUInteger displayid, CGRect global) {
 	CGRect bounds = CGDisplayBounds(displayid);
 	CGRect o_bounds = CGDisplayBounds(CGMainDisplayID());
 	CGPoint new_origin = CGPointMake(o_bounds.origin.x,o_bounds.origin.y+o_bounds.size.height);

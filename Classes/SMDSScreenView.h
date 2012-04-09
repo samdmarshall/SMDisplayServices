@@ -21,6 +21,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 */
 
 #import <Cocoa/Cocoa.h>
+#import "SMDSDisplayCalculations.h"
 
 @interface SMDSScreenView : NSView {
 	BOOL isMain;
