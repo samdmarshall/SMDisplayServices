@@ -60,8 +60,11 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	
 	if (isMain) {
 		CGContextSetLineWidth(context, 1.5);
-		CGRect menu_bar = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, kMainDisplayMenubarHeight);	
-		CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
+		CGRect menu_bar = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, kMainDisplayMenubarHeight);
+		if (isSelected)
+			CGContextSetRGBFillColor(context, 0.505882353, 0.725490196, 0.988235294, 1.0);
+		else
+			CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
 		CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
 		CGContextFillRect(context, menu_bar);
 		CGContextStrokeRect(context, menu_bar);
