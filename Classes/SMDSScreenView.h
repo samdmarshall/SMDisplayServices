@@ -25,10 +25,12 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @interface SMDSScreenView : NSView {
 	BOOL isMain;
 	BOOL isSelected;
+	NSUInteger displayid;
 }
 @property (nonatomic, readonly) BOOL isMain;
 @property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, readonly) NSUInteger displayid;
 
-- (id)initWithFrame:(NSRect)rect isMain:(BOOL)main;
+- (id)initWithFrame:(CGRect)rect withID:(NSUInteger)did;
 
 @end

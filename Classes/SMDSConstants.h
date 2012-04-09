@@ -24,4 +24,5 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 #define kDefaultDisplayScale 0.072222222
 #define kMainDisplayMenubarHeight 6.0
 #define kSelectionHighlightBorder 14.0
+#define kSelectionHighlightBorderMini 2.0
 // NS_BUILD_32_LIKE_64

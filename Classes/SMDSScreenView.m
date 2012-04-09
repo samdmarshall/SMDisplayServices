@@ -21,33 +21,55 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 */
 
 #import "SMDSScreenView.h"
+#import "SMDSConstants.h"
 
 @implementation SMDSScreenView
 
 @synthesize isMain;
 @synthesize isSelected;
+@synthesize displayid;
 
-- (id)initWithFrame:(NSRect)rect isMain:(BOOL)main {
+- (id)initWithFrame:(CGRect)rect withID:(NSUInteger)did {
 	self = [super initWithFrame:rect];
 	if (self) {
 		isSelected = NO;
-		isMain = main;
+		displayid = did;
+		isMain = (displayid == CGMainDisplayID());
 	}
 	return self;
 }
 
-- (void)drawRect:(NSRect)rect {
+- (void)drawRect:(NSRect)dirtyRect {
+	[super drawRect:dirtyRect];
+	CGRect rect = CGRectMake(dirtyRect.origin.x, dirtyRect.origin.y, dirtyRect.size.width, dirtyRect.size.height);
+
+	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 	
-	
-	if (isMain) {
-		
-	}
+	CGContextSetLineWidth(context, 1.5);
+	CGContextSetRGBFillColor(context, 0.329411765, 0.545098039, 0.807843137, 1.0);
+	CGContextFillRect(context, rect);
+	CGContextSetRGBStrokeColor(context, 0, 0, 0, 1.0);
+	CGContextStrokeRect(context, rect);
 	
 	if (isSelected) {
-		
+		CGContextSetLineWidth(context, kSelectionHighlightBorderMini);
+		CGContextSetRGBStrokeColor(context, 1, 0, 0, 1.0);
+		CGRect select_rect = CGRectMake(rect.origin.x+kSelectionHighlightBorderMini, rect.origin.y+kSelectionHighlightBorderMini, rect.size.width-(2*kSelectionHighlightBorderMini), rect.size.height-(2*kSelectionHighlightBorderMini));
+		CGContextStrokeRect(context, select_rect);
 	}
 	
-	
+	if (isMain) {
+		CGContextSetLineWidth(context, 1.5);
+		CGRect menu_bar = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, kMainDisplayMenubarHeight);	
+		CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
+		CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+		CGContextFillRect(context, menu_bar);
+		CGContextStrokeRect(context, menu_bar);
+	}
+}
+
+- (BOOL)isFlipped {
+	return YES;
 }
 
 @end

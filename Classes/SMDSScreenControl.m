@@ -20,10 +20,10 @@ This product includes software developed by the Sam Marshall.
 THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Sam Marshall BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#import "SMDSDisplayCalculations.h"
 #import "SMDSScreenControl.h"
 #import "SMDSScreenView.h"
 #import "SMDSMonitor.h"
-#import "SMDSDisplayCalculations.h"
 
 @implementation SMDSScreenControl
 
@@ -52,7 +52,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)setHightlight:(BOOL)toggle onDisplay:(NSUInteger)displayid {
-	NSLog(@"hello from %llu",displayid);
 	if (toggle) {
 		CGRect bounds = GetDisplayRectForDisplayInSpace(displayid,global);		
 		[displayHighlight setFrame:bounds display:YES];
@@ -60,7 +59,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	} else {
 		[displayHighlight orderOut:self];
 	}
-	[displayHighlight update];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
