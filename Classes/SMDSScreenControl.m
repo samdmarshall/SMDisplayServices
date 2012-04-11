@@ -117,6 +117,8 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	for (SMDSScreenView *screen in [self subviews]) {
 		if (screen.isMain) {
 			if (screen != view) {
+				NSLog(@"%f %f",screen.frame.origin.x, view.frame.origin.x);
+				NSLog(@"%f %f",screen.frame.origin.y, view.frame.origin.y);
 				x = (screen.frame.origin.x + view.frame.origin.x)/kDefaultDisplayScale;
 				y = (screen.frame.origin.y + view.frame.origin.y)/kDefaultDisplayScale;
 			}

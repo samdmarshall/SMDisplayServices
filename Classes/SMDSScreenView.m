@@ -115,7 +115,11 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	
 	CGFloat new_x = self.frame.origin.x;
 	CGFloat new_y = self.frame.origin.y;
-		
+	
+	CGPoint delta = [(SMDSScreenControl *)self.superview getDeltaFromMain:self];
+	NSLog(@"%i %i", (int32_t)delta.x, (int32_t)delta.y);
+	
+	
 	if (!FloatEqual(ox,new_x) || !FloatEqual(oy,new_y)) {
 		CGDisplayConfigRef config;
 		CGError code = CGBeginDisplayConfiguration(&config);
@@ -123,11 +127,9 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 			CGRect bounds = CGDisplayBounds(displayid);
 			int32_t xorigin = (int32_t)(new_x/kDefaultDisplayScale);
 			int32_t yorigin = (int32_t)(new_y/kDefaultDisplayScale);
-			CGPoint delta = [(SMDSScreenControl *)self.superview getDeltaFromMain:self];
-			NSLog(@"%i %i", (int32_t)delta.x, (int32_t)delta.y);
-			NSLog(@"%i %i *** %i %i", (int32_t)(ox/kDefaultDisplayScale), (int32_t)(oy/kDefaultDisplayScale), xorigin, yorigin);
+			//NSLog(@"%i %i *** %i %i", (int32_t)(ox/kDefaultDisplayScale), (int32_t)(oy/kDefaultDisplayScale), xorigin, yorigin);
 			
-			CGConfigureDisplayOrigin(config, displayid, xorigin, yorigin);
+			//CGConfigureDisplayOrigin(config, displayid, (int32_t)delta.x, (int32_t)delta.y);
 		}
 		CGCompleteDisplayConfiguration(config, kCGConfigureForSession);
 	}
