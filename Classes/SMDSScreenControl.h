@@ -27,10 +27,16 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	SMDSDisplaySelect *displayHighlight;
 	CGSize delta;
 	CGRect global;
+	BOOL canConfigure;
+	BOOL canZeroSelect;
+	BOOL shouldNotRetainSelect;
 }
 @property (nonatomic, readonly) SMDSDisplaySelect *displayHighlight;
 @property (nonatomic, readonly) CGSize delta;
 @property (nonatomic, readonly) CGRect global;
+@property (nonatomic, assign) BOOL canConfigure;
+@property (nonatomic, assign) BOOL canZeroSelect;
+@property (nonatomic, assign) BOOL shouldNotRetainSelect;
 
 - (void)setHightlight:(BOOL)toggle onDisplay:(NSUInteger)displayid;
 - (void)setDisplayViews:(NSArray *)displays;
@@ -40,5 +46,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 - (BOOL)snap:(CGRect)view toBounds:(NSArray *)array;
 - (NSArray *)viewSnap:(id)colliding_view;
 - (CGPoint)getDeltaFromMain:(id)view;
+- (void)translateOrigin:(CGPoint)opoint translateDisplay:(NSUInteger)displayid toPoint:(CGPoint)dpoint;
 
 @end

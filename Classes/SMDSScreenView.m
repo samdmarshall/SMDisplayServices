@@ -44,7 +44,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	[super drawRect:dirtyRect];
+	//[super drawRect:dirtyRect];
 	CGRect rect = CGRectMake(dirtyRect.origin.x, dirtyRect.origin.y, dirtyRect.size.width, dirtyRect.size.height);
 
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
@@ -80,58 +80,82 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	ox = self.frame.origin.x;
-	oy = self.frame.origin.y;
+	if ([(SMDSScreenControl *)self.superview shouldNotRetainSelect]) {
+		isSelected = YES;
+		[self setNeedsDisplay:YES];
+	}
+	if ([(SMDSScreenControl *)self.superview canConfigure]) {
+		ox = roundf(self.frame.origin.x/kDefaultDisplayScale);
+		oy = roundf(self.frame.origin.y/kDefaultDisplayScale);
+	}
 	[self.superview mouseDown:theEvent];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-	CGFloat x = 0.f;
-	CGFloat y = 0.f;
-	
-	CGFloat dX = fabs(theEvent.deltaX);
-	CGFloat dY = fabs(theEvent.deltaY);
-	if (dX > dY)
-		x = theEvent.deltaX;
-	else
-		y = theEvent.deltaY;
-	
-	CGFloat new_x = self.frame.origin.x+x;
-	CGFloat new_y = self.frame.origin.y+y;
-	
-	NSArray *snapto = [(SMDSScreenControl *)self.superview viewSnap:self];
-	
-	CGRect new_position = CGRectMake(new_x, new_y, self.frame.size.width, self.frame.size.height);
-	BOOL drag_ok = [(SMDSScreenControl *)self.superview willDisplay:self collide:new_position];
-	BOOL snap_ok = [(SMDSScreenControl *)self.superview snap:new_position toBounds:snapto];	
-	if (!drag_ok && snap_ok) {
-		[self setFrame:new_position];
-		[self setNeedsDisplay:YES];
+	if ([(SMDSScreenControl *)self.superview canConfigure]) {
+		CGFloat x = 0.f;
+		CGFloat y = 0.f;
+
+		CGFloat dX = fabs(theEvent.deltaX);
+		CGFloat dY = fabs(theEvent.deltaY);
+		if (dX > dY)
+			x = theEvent.deltaX;
+		else
+			y = theEvent.deltaY;
+
+		CGFloat new_x = self.frame.origin.x+x;
+		CGFloat new_y = self.frame.origin.y+y;
+
+		NSArray *snapto = [(SMDSScreenControl *)self.superview viewSnap:self];
+
+		CGRect new_position = CGRectMake(new_x, new_y, self.frame.size.width, self.frame.size.height);
+		BOOL drag_ok = [(SMDSScreenControl *)self.superview willDisplay:self collide:new_position];
+		BOOL snap_ok = [(SMDSScreenControl *)self.superview snap:new_position toBounds:snapto];	
+		if (!drag_ok && snap_ok) {
+			[self setFrame:new_position];
+			[self setNeedsDisplay:YES];
+		}
 	}
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
+	if ([(SMDSScreenControl *)self.superview shouldNotRetainSelect]) {
+		isSelected = NO;
+		[self setNeedsDisplay:YES];
+	}
 	[self.superview mouseUp:theEvent];
-	
-	CGFloat new_x = self.frame.origin.x;
-	CGFloat new_y = self.frame.origin.y;
-	
-	CGPoint delta = [(SMDSScreenControl *)self.superview getDeltaFromMain:self];
-	NSLog(@"%i %i", (int32_t)delta.x, (int32_t)delta.y);
-	
-	
-	if (!FloatEqual(ox,new_x) || !FloatEqual(oy,new_y)) {
-		CGDisplayConfigRef config;
-		CGError code = CGBeginDisplayConfiguration(&config);
-		if (code == kCGErrorSuccess) {
-			CGRect bounds = CGDisplayBounds(displayid);
-			int32_t xorigin = (int32_t)(new_x/kDefaultDisplayScale);
-			int32_t yorigin = (int32_t)(new_y/kDefaultDisplayScale);
-			//NSLog(@"%i %i *** %i %i", (int32_t)(ox/kDefaultDisplayScale), (int32_t)(oy/kDefaultDisplayScale), xorigin, yorigin);
-			
-			//CGConfigureDisplayOrigin(config, displayid, (int32_t)delta.x, (int32_t)delta.y);
-		}
-		CGCompleteDisplayConfiguration(config, kCGConfigureForSession);
+	if ([(SMDSScreenControl *)self.superview canConfigure]) {
+		CGRect bounds = CGDisplayBounds(displayid);
+		NSLog(@"bounds: %f %f",bounds.origin.x, bounds.origin.y);
+		NSLog(@"original: %f %f",ox, oy);
+		//CGFloat new_x = roundf(self.frame.origin.x/kDefaultDisplayScale) - bounds.origin.x;
+		//CGFloat new_y = roundf(self.frame.origin.y/kDefaultDisplayScale) - bounds.origin.y;
+		CGPoint display_delta = { roundf(self.frame.origin.x/kDefaultDisplayScale) - bounds.origin.x, roundf(self.frame.origin.y/kDefaultDisplayScale) - bounds.origin.y };
+
+		CGPoint origin_delta = [(SMDSScreenControl *)self.superview getDeltaFromMain:self];
+
+		[(SMDSScreenControl *)self.superview translateOrigin:origin_delta translateDisplay:displayid toPoint:display_delta];
+
+		/*if (!FloatEqual(ox,new_x) || !FloatEqual(oy,new_y)) {
+			CGDisplayConfigRef config;
+			CGError code = CGBeginDisplayConfiguration(&config);
+			if (code == kCGErrorSuccess) {
+				if (!FloatEqual(ox,new_x) || !FloatEqual(oy,new_y)) {
+
+				} else {
+
+				}
+
+
+				CGRect bounds = CGDisplayBounds(displayid);
+				int32_t xorigin = (int32_t)(new_x/kDefaultDisplayScale);
+				int32_t yorigin = (int32_t)(new_y/kDefaultDisplayScale);
+				//NSLog(@"%i %i *** %i %i", (int32_t)(ox/kDefaultDisplayScale), (int32_t)(oy/kDefaultDisplayScale), xorigin, yorigin);
+
+				//CGConfigureDisplayOrigin(config, displayid, (int32_t)delta.x, (int32_t)delta.y);
+			}
+			CGCompleteDisplayConfiguration(config, kCGConfigureForSession);
+		//}*/
 	}
 }
 
