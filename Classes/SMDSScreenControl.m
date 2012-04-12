@@ -59,7 +59,9 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 - (void)setDisplayViews:(NSArray *)displays {
 	[[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	NSLog(@"%@",displays);
 	delta = GetDelta(displays);
+	NSLog(@"%@",displays);
 	global = GetGlobalDisplaySpace(displays);
 	for (SMDSMonitor *screen in displays) {
 		SMDSScreenView *a_screen = [[[SMDSScreenView alloc] initWithFrame:ReduceFrameWithDelta(screen.bounds, delta) withID:screen.displayid] autorelease];
@@ -79,6 +81,17 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	}
 }
 
+- (void)deselectDisplayAtIndex:(NSUInteger)index {
+	SMDSScreenView *old_view = [[self subviews] objectAtIndex:index];
+	old_view.isSelected = NO;
+}
+
+- (void)selectDisplayAtIndex:(NSUInteger)index {
+	SMDSScreenView *view = [[self subviews] objectAtIndex:index];
+	view.isSelected = YES;
+	[self setHightlight:YES onDisplay:[view displayid]];
+}
+
 - (void)mouseDown:(NSEvent *)theEvent {
 	NSArray *display_subviews = [self subviews];
 	NSWindow *window = [self window];
@@ -94,24 +107,15 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 		}];
 		
 		if (canEmptySelect) {
-			if (current_selected != NSNotFound) {
-				SMDSScreenView *old_view = [display_subviews objectAtIndex:current_selected];
-				old_view.isSelected = NO;
-			}
-			if (clicked_view != NSNotFound) {
-				SMDSScreenView *view = [display_subviews objectAtIndex:clicked_view];
-				view.isSelected = YES;
-				[self setHightlight:YES onDisplay:[view displayid]];
-			}
+			if (current_selected != NSNotFound)
+				[self deselectDisplayAtIndex:current_selected];
+			if (clicked_view != NSNotFound)
+				[self selectDisplayAtIndex:clicked_view];
 		} else {
 			if (clicked_view != NSNotFound) {
-				if (current_selected != NSNotFound) {
-					SMDSScreenView *old_view = [display_subviews objectAtIndex:current_selected];
-					old_view.isSelected = NO;
-				}
-				SMDSScreenView *view = [display_subviews objectAtIndex:clicked_view];
-				view.isSelected = YES;
-				[self setHightlight:YES onDisplay:[view displayid]];
+				if (current_selected != NSNotFound)
+					[self deselectDisplayAtIndex:current_selected];
+				[self selectDisplayAtIndex:clicked_view];
 			}
 		}
 		[self setNeedsDisplay:YES];
@@ -166,19 +170,14 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 		NSPredicate *pred_dis = [NSPredicate predicateWithFormat:@"displayid == %llu",view.displayid];
 		NSArray *results_dis = [[self subviews] filteredArrayUsingPredicate:pred_dis];	
 		for (SMDSScreenView *screen in results_dis) {
-			//NSLog(@"%f %f",roundf(screen.frame.origin.x/kDefaultDisplayScale), roundf(screen.frame.origin.y/kDefaultDisplayScale));
 			x = roundf(screen.frame.origin.x/kDefaultDisplayScale) - x;
 			y = roundf(screen.frame.origin.y/kDefaultDisplayScale) - y;
 		}
 	}
-	//NSLog(@"origin distance %f %f",x, y);
 	return CGPointMake(x, y);
 }
 
 - (void)translateDisplay:(NSUInteger)displayid toOffset:(CGPoint)offset {
-	//NSLog(@"==================");
-	//NSLog(@"%i %i", (int32_t)offset.x, (int32_t)offset.y);
-	//NSLog(@"==================");
 	NSPredicate *pred;
 	BOOL is_main = (displayid == CGMainDisplayID());
 	if (is_main) {
@@ -195,10 +194,8 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 		NSArray *results = [[self subviews] filteredArrayUsingPredicate:pred];
 		for (SMDSScreenView *screen in results) {
 			CGRect bounds = CGDisplayBounds(screen.displayid);
-			//NSLog(@"%llu %f %f",screen.displayid, bounds.origin.x, bounds.origin.y);
 			CGFloat x = bounds.origin.x + offset.x;
 			CGFloat y = bounds.origin.y + offset.y;
-			//NSLog(@"%i %i", (int32_t)x, (int32_t)y);
 			CGConfigureDisplayOrigin(config, screen.displayid, (int32_t)x, (int32_t)y);
 		}
 	}

@@ -84,8 +84,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)update {
-	if (![self isSame]) 
-		CGSetDisplayTransferByFormula(dID, redMin, redMax, redGamma, greenMin, greenMax, greenGamma, blueMin, blueMax, blueGamma);
+	if (![self isSame]) CGSetDisplayTransferByFormula(dID, redMin, redMax, redGamma, greenMin, greenMax, greenGamma, blueMin, blueMax, blueGamma);
 }
 
 - (void)dealloc {

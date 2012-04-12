@@ -44,10 +44,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @property (nonatomic, readonly) CGGammaValue blueGamma;
 
 - (id)initWithDisplayID:(NSUInteger)_id;
-
 - (BOOL)isSame;
-
 - (void)update;
-
 
 @end

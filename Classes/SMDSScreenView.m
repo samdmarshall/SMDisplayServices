@@ -44,7 +44,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	//[super drawRect:dirtyRect];
 	CGRect rect = CGRectMake(dirtyRect.origin.x, dirtyRect.origin.y, dirtyRect.size.width, dirtyRect.size.height);
 
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
@@ -127,9 +126,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	if ([(SMDSScreenControl *)self.superview canConfigure]) {		
 		CGFloat new_x = roundf(self.frame.origin.x/kDefaultDisplayScale);
 		CGFloat new_y = roundf(self.frame.origin.y/kDefaultDisplayScale);
-		//NSLog(@"original: %f %f",ox, oy);
-		//NSLog(@"new: %f %f",new_x, new_y);
-		
 		if (!FloatEqual(ox, new_x) || !FloatEqual(oy, new_y)) {
 			CGPoint offset = CGPointMake(ox - new_x, oy - new_y);
 			[(SMDSScreenControl *)self.superview translateDisplay:displayid toOffset:offset];

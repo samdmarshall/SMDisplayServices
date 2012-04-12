@@ -37,9 +37,10 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @property (nonatomic, readonly) CGRect frame;
 @property (nonatomic, readonly) CGRect bounds;
 @property (nonatomic, readonly) BOOL isMain;
-@property (nonatomic, readonly) SMDSGamma *gamma;
+@property (nonatomic, retain) SMDSGamma *gamma;
 
 - (id)initWithScreen:(NSScreen *)screen;
 - (void)refresh;
+- (void)detectName;
 
 @end

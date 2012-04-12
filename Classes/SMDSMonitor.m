@@ -24,10 +24,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 #import "NSScreen+Additions.h"
 #import <IOKit/graphics/IOGraphicsLib.h>
 
-@interface SMDSMonitor ()
-- (void)detectName;
-@end
-
 @implementation SMDSMonitor
 
 @synthesize displayid;
@@ -51,7 +47,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	bounds = CGDisplayBounds(displayid);
 	isMain = (displayid == CGMainDisplayID());
 	[self detectName];
-	gamma = [[[SMDSGamma alloc] initWithDisplayID:displayid] autorelease];
+	self.gamma = [[[SMDSGamma alloc] initWithDisplayID:displayid] autorelease];
 }
 
 - (void)detectName {
