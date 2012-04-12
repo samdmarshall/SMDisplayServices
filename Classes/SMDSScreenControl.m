@@ -38,7 +38,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	self = [super initWithFrame:rect];
 	if (self) {
 		displayHighlight = [[SMDSDisplaySelect alloc] initWithContentRect:CGRectMake(0,0,0,0) styleMask:NSBorderlessWindowMask backing:NSBackingStoreRetained defer:NO];
-		[displayHighlight setLevel:NSTornOffMenuWindowLevel];
+		[displayHighlight setLevel:kCGDockWindowLevel];
 		canConfigure = YES;
 		canEmptySelect = YES;
 		shouldRetainSelection = NO;
