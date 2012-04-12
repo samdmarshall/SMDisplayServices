@@ -72,6 +72,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 		for (NSUInteger i = 0; i < table_count; i++) {
 			colors[c][i] = (min[c] + ((max[c] - min[c]) * pow((float)i, gamma[c])))/(float)(table_count - 1);
 			color_ok[c] = FloatEqual(colors[c][i], display_color[c][i]);
+			if (!color_ok[c]) break;
 		}
 	}
 		

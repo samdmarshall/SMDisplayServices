@@ -59,9 +59,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 - (void)setDisplayViews:(NSArray *)displays {
 	[[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-	NSLog(@"%@",displays);
 	delta = GetDelta(displays);
-	NSLog(@"%@",displays);
 	global = GetGlobalDisplaySpace(displays);
 	for (SMDSMonitor *screen in displays) {
 		SMDSScreenView *a_screen = [[[SMDSScreenView alloc] initWithFrame:ReduceFrameWithDelta(screen.bounds, delta) withID:screen.displayid] autorelease];

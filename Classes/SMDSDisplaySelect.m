@@ -44,9 +44,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @implementation SMDSDisplaySelectBorder
 
 - (void)drawRect:(NSRect)dirtyRect {
-    // Drawing code here.
-	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-	
+	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];	
 	CGContextSetRGBFillColor(context, 1.0,0.0,0.0,0.0);
 	CGContextFillRect(context, dirtyRect);
 	CGContextSetLineWidth(context, kSelectionHighlightBorder);
