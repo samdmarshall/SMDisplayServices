@@ -133,7 +133,8 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 		CGPoint display_delta = { roundf(self.frame.origin.x/kDefaultDisplayScale) - bounds.origin.x, roundf(self.frame.origin.y/kDefaultDisplayScale) - bounds.origin.y };
 
 		CGPoint origin_delta = [(SMDSScreenControl *)self.superview getDeltaFromMain:self];
-
+		origin_delta = CGPointMake(ox - origin_delta.x, oy - origin_delta.y);
+		
 		[(SMDSScreenControl *)self.superview translateOrigin:origin_delta translateDisplay:displayid toPoint:display_delta];
 
 		/*if (!FloatEqual(ox,new_x) || !FloatEqual(oy,new_y)) {

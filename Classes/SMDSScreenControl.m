@@ -212,10 +212,10 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 			NSArray *results = [[self subviews] filteredArrayUsingPredicate:pred];	
 			for (SMDSScreenView *screen in results) {
 				CGRect bounds = CGDisplayBounds(screen.displayid);
-				CGFloat x = bounds.origin.x;// - opoint.x;
-				CGFloat y = bounds.origin.y;// - opoint.y;
+				CGFloat x = bounds.origin.x + opoint.x;
+				CGFloat y = bounds.origin.y + opoint.y;
 				NSLog(@"%i %i", (int32_t)x, (int32_t)y);
-				//CGConfigureDisplayOrigin(config, screen.displayid, (int32_t)x, (int32_t)y);
+				CGConfigureDisplayOrigin(config, screen.displayid, (int32_t)x, (int32_t)y);
 			}
 		} else {
 			NSLog(@"moving other");
@@ -223,8 +223,8 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 			NSArray *results = [[self subviews] filteredArrayUsingPredicate:pred];	
 			for (SMDSScreenView *screen in results) {
 				CGRect bounds = CGDisplayBounds(screen.displayid);
-				CGFloat x = bounds.origin.x;// + dpoint.x;
-				CGFloat y = bounds.origin.y;// + dpoint.y;
+				CGFloat x = bounds.origin.x + dpoint.x;
+				CGFloat y = bounds.origin.y + dpoint.y;
 				NSLog(@"%i %i", (int32_t)x, (int32_t)y);
 				//CGConfigureDisplayOrigin(config, screen.displayid, (int32_t)x, (int32_t)y);
 			}
