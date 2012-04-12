@@ -46,6 +46,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 - (BOOL)snap:(CGRect)view toBounds:(NSArray *)array;
 - (NSArray *)viewSnap:(id)colliding_view;
 - (CGPoint)getDeltaFromMain:(id)view;
-- (void)translateOrigin:(CGPoint)opoint translateDisplay:(NSUInteger)displayid toPoint:(CGPoint)dpoint;
+- (void)translateDisplay:(NSUInteger)displayid toOffset:(CGPoint)offset;
 
 @end

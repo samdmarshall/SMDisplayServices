@@ -156,78 +156,50 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 - (CGPoint)getDeltaFromMain:(SMDSScreenView *)view {
 	CGFloat x = 0.f, y = 0.f;
-	//CGSize test = GetDelta([self subviews]);
-	//NSLog(@"%f %f", test.width, test.height);
 	NSPredicate *pred_main = [NSPredicate predicateWithFormat:@"displayid == %llu",CGMainDisplayID()];
 	NSArray *results_main = [[self subviews] filteredArrayUsingPredicate:pred_main];	
 	for (SMDSScreenView *screen in results_main) {
-		//NSLog(@"%llu: %f %f",screen.displayid,roundf(screen.frame.origin.x/kDefaultDisplayScale),roundf(screen.frame.origin.y/kDefaultDisplayScale));
-		//if (screen.isMain) {
-			//if (!FloatEqual(roundf(screen.frame.origin.x/kDefaultDisplayScale), 0.f) || !FloatEqual(roundf(screen.frame.origin.y/kDefaultDisplayScale), 0.f)) {
-				CGRect bounds = CGDisplayBounds(screen.displayid);
-				
-				x = roundf(screen.frame.origin.x/kDefaultDisplayScale);
-				y = roundf(screen.frame.origin.y/kDefaultDisplayScale);
-			//} else {
-			//	NSLog(@"moving other display x: %f",roundf(screen.frame.origin.x/kDefaultDisplayScale));
-			//	NSLog(@"moving other display y: %f",roundf(screen.frame.origin.y/kDefaultDisplayScale));	
-			//}
-		//}
-		//NSLog(@" ");
+		x = roundf(screen.frame.origin.x/kDefaultDisplayScale);
+		y = roundf(screen.frame.origin.y/kDefaultDisplayScale);
 	}
-	NSLog(@"%f %f",x, y);
-	/*NSPredicate *pred_dis = [NSPredicate predicateWithFormat:@"displayid == %llu",view.displayid];
-	NSArray *results_dis = [[self subviews] filteredArrayUsingPredicate:pred_dis];	
-	for (SMDSScreenView *screen in results_dis) {
-			NSLog(@"%f %f",roundf(screen.frame.origin.x/kDefaultDisplayScale), roundf(screen.frame.origin.y/kDefaultDisplayScale));
-		x = roundf(screen.frame.origin.x/kDefaultDisplayScale) - x;
-		y = roundf(screen.frame.origin.y/kDefaultDisplayScale) - y;
-	}*/
-	//NSLog(@"---------------------------");
-	/*NSPredicate *pred = [NSPredicate predicateWithFormat:@"displayid == %llu",CGMainDisplayID()];
-	NSArray *results = [[self subviews] filteredArrayUsingPredicate:pred];	
-	for (SMDSScreenView *screen in results) {
-		if (screen != view) {
-			NSLog(@"%f %f",screen.frame.origin.x, view.frame.origin.x);
-			NSLog(@"%f %f",screen.frame.origin.y, view.frame.origin.y);
-			x = (screen.frame.origin.x + view.frame.origin.x)/kDefaultDisplayScale;
-			y = (screen.frame.origin.y + view.frame.origin.y)/kDefaultDisplayScale;
-			NSLog(@"%f %f",x, y);
+	if (view.displayid != CGMainDisplayID()) {
+		NSPredicate *pred_dis = [NSPredicate predicateWithFormat:@"displayid == %llu",view.displayid];
+		NSArray *results_dis = [[self subviews] filteredArrayUsingPredicate:pred_dis];	
+		for (SMDSScreenView *screen in results_dis) {
+			//NSLog(@"%f %f",roundf(screen.frame.origin.x/kDefaultDisplayScale), roundf(screen.frame.origin.y/kDefaultDisplayScale));
+			x = roundf(screen.frame.origin.x/kDefaultDisplayScale) - x;
+			y = roundf(screen.frame.origin.y/kDefaultDisplayScale) - y;
 		}
-	}*/
+	}
+	//NSLog(@"origin distance %f %f",x, y);
 	return CGPointMake(x, y);
 }
 
-- (void)translateOrigin:(CGPoint)opoint translateDisplay:(NSUInteger)displayid toPoint:(CGPoint)dpoint {
-	NSLog(@"==================");
-	NSLog(@"%i %i", (int32_t)opoint.x, (int32_t)opoint.y);
-	NSLog(@"%i %i", (int32_t)dpoint.x, (int32_t)dpoint.y);
-	NSLog(@"==================");
+- (void)translateDisplay:(NSUInteger)displayid toOffset:(CGPoint)offset {
+	//NSLog(@"==================");
+	//NSLog(@"%i %i", (int32_t)offset.x, (int32_t)offset.y);
+	//NSLog(@"==================");
+	NSPredicate *pred;
+	BOOL is_main = (displayid == CGMainDisplayID());
+	if (is_main) {
+		pred = [NSPredicate predicateWithFormat:@"displayid != %llu",displayid];
+	} else {
+		pred = [NSPredicate predicateWithFormat:@"displayid == %llu",displayid];
+		offset.x = -1.f*offset.x;
+		offset.y = -1.f*offset.y;
+	}
+	
 	CGDisplayConfigRef config;
 	CGError code = CGBeginDisplayConfiguration(&config);
 	if (code == kCGErrorSuccess) {
-		if (displayid == CGMainDisplayID()) {
-			NSLog(@"moving main");
-			NSPredicate *pred = [NSPredicate predicateWithFormat:@"displayid != %llu",displayid];
-			NSArray *results = [[self subviews] filteredArrayUsingPredicate:pred];	
-			for (SMDSScreenView *screen in results) {
-				CGRect bounds = CGDisplayBounds(screen.displayid);
-				CGFloat x = bounds.origin.x + opoint.x;
-				CGFloat y = bounds.origin.y + opoint.y;
-				NSLog(@"%i %i", (int32_t)x, (int32_t)y);
-				CGConfigureDisplayOrigin(config, screen.displayid, (int32_t)x, (int32_t)y);
-			}
-		} else {
-			NSLog(@"moving other");
-			NSPredicate *pred = [NSPredicate predicateWithFormat:@"displayid == %llu",displayid];
-			NSArray *results = [[self subviews] filteredArrayUsingPredicate:pred];	
-			for (SMDSScreenView *screen in results) {
-				CGRect bounds = CGDisplayBounds(screen.displayid);
-				CGFloat x = bounds.origin.x + dpoint.x;
-				CGFloat y = bounds.origin.y + dpoint.y;
-				NSLog(@"%i %i", (int32_t)x, (int32_t)y);
-				//CGConfigureDisplayOrigin(config, screen.displayid, (int32_t)x, (int32_t)y);
-			}
+		NSArray *results = [[self subviews] filteredArrayUsingPredicate:pred];
+		for (SMDSScreenView *screen in results) {
+			CGRect bounds = CGDisplayBounds(screen.displayid);
+			//NSLog(@"%llu %f %f",screen.displayid, bounds.origin.x, bounds.origin.y);
+			CGFloat x = bounds.origin.x + offset.x;
+			CGFloat y = bounds.origin.y + offset.y;
+			//NSLog(@"%i %i", (int32_t)x, (int32_t)y);
+			CGConfigureDisplayOrigin(config, screen.displayid, (int32_t)x, (int32_t)y);
 		}
 	}
 	CGCompleteDisplayConfiguration(config, kCGConfigureForSession);
