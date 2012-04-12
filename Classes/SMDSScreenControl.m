@@ -96,12 +96,12 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	NSPoint vloc;
 	if (window) {
 		vloc = [self convertPoint:[theEvent locationInWindow] fromView:[window contentView]];
-		NSUInteger current_selected = [display_subviews indexOfObjectPassingTest:^(SMDSScreenView *view, NSUInteger index, BOOL *stop) {
-				return view.isSelected;
+		NSUInteger current_selected = [display_subviews indexOfObjectPassingTest:^(id view, NSUInteger index, BOOL *stop) {
+				return [(SMDSScreenView *)view isSelected];
 		}];
 		
-		NSUInteger clicked_view = [display_subviews indexOfObjectPassingTest:^(SMDSScreenView *view, NSUInteger index, BOOL *stop) {
-			return [view mouse:vloc inRect:view.frame];
+		NSUInteger clicked_view = [display_subviews indexOfObjectPassingTest:^(id view, NSUInteger index, BOOL *stop) {
+			return [(SMDSScreenView *)view mouse:vloc inRect:[(SMDSScreenView *)view frame]];
 		}];
 		
 		if (canEmptySelect) {

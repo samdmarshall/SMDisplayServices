@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>SMDisplayServices 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>SMDisplayServices.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>225D8A301537716F005B84EF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8D1107260486CEB800E47090</key>
 		<dict>
 			<key>primary</key>

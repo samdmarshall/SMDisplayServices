@@ -6,7 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SMDSController.h"
+#import "SMDisplayServices/SMDSController.h"
 
 @interface SMDisplayServicesTest : NSObject {
     IBOutlet id window;

@@ -6,7 +6,7 @@
 //
 
 #import "SMDisplayServicesTest.h"
-#import "SMDSMonitor.h"
+#import "SMDisplayServices/SMDSMonitor.h"
 
 @implementation SMDisplayServicesTest
 
@@ -22,7 +22,7 @@
 
 - (IBAction)getDisplay:(id)sender {
 	SMDSMonitor *display = [controller selectedDisplay];
-	NSLog(@"ID: %llu",display.displayid);
+	NSLog(@"ID: %lu",display.displayid);
 	NSLog(@"Name: %@",display.name);
 	NSLog(@"Frame: %f %f %f %f",display.frame.origin.x,display.frame.origin.y,display.frame.size.width,display.frame.size.height);
 	NSLog(@"Bounds: %f %f %f %f",display.bounds.origin.x,display.bounds.origin.y,display.bounds.size.width,display.bounds.size.height);
