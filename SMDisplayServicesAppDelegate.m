@@ -7,7 +7,6 @@
 //
 
 #import "SMDisplayServicesAppDelegate.h"
-#import "SMDSController.h"
 
 @implementation SMDisplayServicesAppDelegate
 
