@@ -22,6 +22,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 #import <Cocoa/Cocoa.h>
 #import "SMDSScreenControl.h"
+#import "SMDSMonitor.h"
 
 @interface SMDSController : NSObject {
 	NSArray *displays;
@@ -41,5 +42,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 
 - (void)setRetainSelection:(BOOL)retain;
 - (BOOL)willRetainSelection;
+
+- (SMDSMonitor *)selectedDisplay;
 
 @end

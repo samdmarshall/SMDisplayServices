@@ -16,6 +16,7 @@
 		22B2F0EC1527C66B0094C6E6 /* SMDSMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B2F0EB1527C66B0094C6E6 /* SMDSMonitor.m */; };
 		22B2F0F11527C6930094C6E6 /* SMDSController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B2F0F01527C6930094C6E6 /* SMDSController.m */; };
 		22B2F0FA1527C76D0094C6E6 /* NSScreen+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B2F0F91527C76D0094C6E6 /* NSScreen+Additions.m */; };
+		22F35119153757320000B85D /* SMDisplayServicesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F35118153757320000B85D /* SMDisplayServicesTest.m */; };
 		256AC3DA0F4B6AC300CF3369 /* SMDisplayServicesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* SMDisplayServicesAppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -45,6 +46,8 @@
 		22B2F0F81527C76D0094C6E6 /* NSScreen+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSScreen+Additions.h"; path = "Classes/NSScreen+Additions.h"; sourceTree = "<group>"; };
 		22B2F0F91527C76D0094C6E6 /* NSScreen+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSScreen+Additions.m"; path = "Classes/NSScreen+Additions.m"; sourceTree = "<group>"; };
 		22B2F1101527C9500094C6E6 /* SMDSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMDSConstants.h; path = Classes/SMDSConstants.h; sourceTree = "<group>"; };
+		22F35117153757320000B85D /* SMDisplayServicesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDisplayServicesTest.h; sourceTree = "<group>"; };
+		22F35118153757320000B85D /* SMDisplayServicesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMDisplayServicesTest.m; sourceTree = "<group>"; };
 		256AC3D80F4B6AC300CF3369 /* SMDisplayServicesAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDisplayServicesAppDelegate.h; sourceTree = "<group>"; };
 		256AC3D90F4B6AC300CF3369 /* SMDisplayServicesAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMDisplayServicesAppDelegate.m; sourceTree = "<group>"; };
 		256AC3F00F4B6AF500CF3369 /* SMDisplayServices_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDisplayServices_Prefix.pch; sourceTree = "<group>"; };
@@ -129,6 +132,8 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				22F35117153757320000B85D /* SMDisplayServicesTest.h */,
+				22F35118153757320000B85D /* SMDisplayServicesTest.m */,
 			);
 			name = SMDisplayServices;
 			sourceTree = "<group>";
@@ -235,6 +240,7 @@
 				226EA36E152D315F00766E2E /* SMDSScreenControl.m in Sources */,
 				226EA36F152D315F00766E2E /* SMDSScreenView.m in Sources */,
 				22405A42152E074400909FCB /* SMDSDisplaySelect.m in Sources */,
+				22F35119153757320000B85D /* SMDisplayServicesTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -95,6 +95,18 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	return displayview.shouldRetainSelection;
 }
 
+- (SMDSMonitor *)selectedDisplay {
+	if (displayview.shouldRetainSelection) {
+		NSArray *views = [displayview subviews];
+		NSPredicate *selected_pred = [NSPredicate predicateWithFormat:@"isSelected == YES"];
+		NSArray *view_results = [views filteredArrayUsingPredicate:selected_pred];
+		NSPredicate *id_pred = [NSPredicate predicateWithFormat:@"displayid == %llu",[[view_results lastObject] displayid]];
+		NSArray *results = [displays filteredArrayUsingPredicate:id_pred];
+		return [results lastObject];
+	}
+	return nil;
+}
+
 - (void)dealloc {
 	[displays release];
 	[displayview release];

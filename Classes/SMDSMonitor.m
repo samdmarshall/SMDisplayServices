@@ -25,7 +25,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 #import <IOKit/graphics/IOGraphicsLib.h>
 
 @interface SMDSMonitor ()
-- (NSString *)detectName;
+- (void)detectName;
 @end
 
 @implementation SMDSMonitor
@@ -41,34 +41,30 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	self = [super init];
 	if (self) {
 		displayid = screen.CGDirectDisplayID;
-		[self update];
+		[self refresh];
 	}
 	return self;
 }
 
-- (void)update {
+- (void)refresh {
 	frame = CGRectMake(0, 0, CGDisplayPixelsWide(displayid), CGDisplayPixelsHigh(displayid));
 	bounds = CGDisplayBounds(displayid);
 	isMain = (displayid == CGMainDisplayID());
-	name = [self detectName];
+	[self detectName];
 	gamma = [[[SMDSGamma alloc] initWithDisplayID:displayid] autorelease];
 }
 
-- (NSString *)detectName {
-	if ([name isEqualToString:@""]) {
-		io_connect_t display_port = CGDisplayIOServicePort(displayid);
-		NSDictionary *data = [(NSDictionary *)IODisplayCreateInfoDictionary(display_port, kIODisplayOnlyPreferredName) autorelease];
-		NSDictionary *names = [data objectForKey:@"DisplayProductName"];
-		NSSet *name_locals = [NSSet setWithArray:[names allKeys]];
-		if ([name_locals containsObject:[[NSLocale currentLocale] localeIdentifier]]) {
-			return [names objectForKey:[[NSLocale currentLocale] localeIdentifier]];
-		} else if ([name_locals containsObject:@"en_US"]) {
-			return [names objectForKey:@"en_US"];
-		} else {
-			return [names objectForKey:[[names allKeys] objectAtIndex:0]];
-		}
+- (void)detectName {
+	io_connect_t display_port = CGDisplayIOServicePort(displayid);
+	NSDictionary *data = [(NSDictionary *)IODisplayCreateInfoDictionary(display_port, kIODisplayOnlyPreferredName) autorelease];
+	NSDictionary *names = [data objectForKey:@"DisplayProductName"];
+	NSSet *name_locals = [NSSet setWithArray:[names allKeys]];
+	if ([name_locals containsObject:[[NSLocale currentLocale] localeIdentifier]]) {
+		self.name = [names objectForKey:[[NSLocale currentLocale] localeIdentifier]];
+	} else if ([name_locals containsObject:@"en_US"]) {
+		self.name = [names objectForKey:@"en_US"];
 	} else {
-		return name;
+		self.name = [names objectForKey:[[names allKeys] objectAtIndex:0]];
 	}
 }
 

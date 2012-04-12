@@ -33,13 +33,13 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 @property (nonatomic, readonly) NSUInteger displayid;
-@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, retain) NSString *name;
 @property (nonatomic, readonly) CGRect frame;
 @property (nonatomic, readonly) CGRect bounds;
 @property (nonatomic, readonly) BOOL isMain;
 @property (nonatomic, readonly) SMDSGamma *gamma;
 
 - (id)initWithScreen:(NSScreen *)screen;
-- (void)update;
+- (void)refresh;
 
 @end
