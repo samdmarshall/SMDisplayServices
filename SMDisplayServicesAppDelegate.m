@@ -15,8 +15,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application 
-	SMDSController *controller = [[SMDSController alloc] init];
-	[[window contentView] addSubview:[controller displayview]];
+	SMDSController *controller = [[SMDSController alloc] initWithFrame:CGRectMake(0,0,750,550)];
+	[window.contentView addSubview:controller.displayview];
+	[controller renderDisplays];
 }
 
 @end

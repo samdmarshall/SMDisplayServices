@@ -80,7 +80,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	if ([(SMDSScreenControl *)self.superview shouldNotRetainSelect]) {
+	if (![(SMDSScreenControl *)self.superview shouldRetainSelection]) {
 		isSelected = YES;
 		[self setNeedsDisplay:YES];
 	}
@@ -119,7 +119,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-	if ([(SMDSScreenControl *)self.superview shouldNotRetainSelect]) {
+	if (![(SMDSScreenControl *)self.superview shouldRetainSelection]) {
 		isSelected = NO;
 		[self setNeedsDisplay:YES];
 	}

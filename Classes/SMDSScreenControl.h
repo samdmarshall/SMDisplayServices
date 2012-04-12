@@ -28,15 +28,15 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	CGSize delta;
 	CGRect global;
 	BOOL canConfigure;
-	BOOL canZeroSelect;
-	BOOL shouldNotRetainSelect;
+	BOOL canEmptySelect;
+	BOOL shouldRetainSelection;
 }
 @property (nonatomic, readonly) SMDSDisplaySelect *displayHighlight;
 @property (nonatomic, readonly) CGSize delta;
 @property (nonatomic, readonly) CGRect global;
 @property (nonatomic, assign) BOOL canConfigure;
-@property (nonatomic, assign) BOOL canZeroSelect;
-@property (nonatomic, assign) BOOL shouldNotRetainSelect;
+@property (nonatomic, assign) BOOL canEmptySelect;
+@property (nonatomic, assign) BOOL shouldRetainSelection;
 
 - (void)setHightlight:(BOOL)toggle onDisplay:(NSUInteger)displayid;
 - (void)setDisplayViews:(NSArray *)displays;

@@ -31,8 +31,8 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @synthesize delta;
 @synthesize global;
 @synthesize canConfigure;
-@synthesize canZeroSelect;
-@synthesize shouldNotRetainSelect;
+@synthesize canEmptySelect;
+@synthesize shouldRetainSelection;
 
 - (id)initWithFrame:(NSRect)rect {
 	self = [super initWithFrame:rect];
@@ -40,17 +40,17 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 		displayHighlight = [[SMDSDisplaySelect alloc] initWithContentRect:CGRectMake(0,0,0,0) styleMask:NSBorderlessWindowMask backing:NSBackingStoreRetained defer:NO];
 		[displayHighlight setLevel:NSTornOffMenuWindowLevel];
 		canConfigure = YES;
-		canZeroSelect = YES;
-		shouldNotRetainSelect = YES;
+		canEmptySelect = YES;
+		shouldRetainSelection = NO;
 	}
 	return self;
 }
 
-- (BOOL)canZeroSelect {
-	if (shouldNotRetainSelect)
+- (BOOL)canEmptySelect {
+	if (!shouldRetainSelection)
 		return YES;
 	else
-		return canZeroSelect;
+		return canEmptySelect;
 }
 
 - (BOOL)isFlipped {
@@ -93,7 +93,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 			return [view mouse:vloc inRect:view.frame];
 		}];
 		
-		if (canZeroSelect) {
+		if (canEmptySelect) {
 			if (current_selected != NSNotFound) {
 				SMDSScreenView *old_view = [display_subviews objectAtIndex:current_selected];
 				old_view.isSelected = NO;

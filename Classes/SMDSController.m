@@ -36,29 +36,63 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	self = [super init];
 	if (self) {
 		self.displayview = [[SMDSScreenControl alloc] initWithFrame:CGRectMake(0,0,750,550)];
-		self.displays = [self update];
+		[self update];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDetected:) name:NSApplicationDidChangeScreenParametersNotification object:nil];
-		[self renderDisplays];
 	}
 	return self;
 }
 
+- (id)initWithFrame:(CGRect)rect {
+	self = [super init];
+	if (self) {
+		self.displayview = [[SMDSScreenControl alloc] initWithFrame:rect];
+		[self update];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDetected:) name:NSApplicationDidChangeScreenParametersNotification object:nil];
+	}
+	return self;	
+}
+
 - (void)updateDetected:(NSNotification *)notification {
-	self.displays = [self update];
+	[self update];
 	[self renderDisplays];
 }
 
-- (NSArray *)update {
-	NSMutableArray *current_displays = [[[NSMutableArray alloc] init] autorelease];
+- (void)update {
+	NSMutableArray *current_displays = [[NSMutableArray alloc] init];
 	for (NSScreen *screen in [NSScreen screens]) {
 		SMDSMonitor *monitor = [[[SMDSMonitor alloc] initWithScreen:screen] autorelease];
 		[current_displays addObject:monitor];
 	}
-	return current_displays;
+	self.displays = current_displays;
+	[current_displays release];
 }
 
 - (void)renderDisplays {
 	[displayview setDisplayViews:displays];
+}
+
+- (void)setConfig:(BOOL)config {
+	displayview.canConfigure = config;
+}
+
+- (BOOL)canConfigure {
+	return displayview.canConfigure;
+}
+
+- (void)setEmptySelect:(BOOL)select {
+	displayview.canEmptySelect = select;
+}
+
+- (BOOL)canEmptySelect {
+	return displayview.canEmptySelect;
+}
+
+- (void)setRetainSelection:(BOOL)retain {
+	displayview.shouldRetainSelection = retain;
+}
+
+- (BOOL)willRetainSelection {
+	return displayview.shouldRetainSelection;
 }
 
 - (void)dealloc {

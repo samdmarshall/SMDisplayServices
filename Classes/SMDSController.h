@@ -30,7 +30,16 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @property (nonatomic, retain) NSArray *displays;
 @property (nonatomic, retain) SMDSScreenControl *displayview;
 
-- (NSArray *)update;
+- (void)update;
 - (void)renderDisplays;
+
+- (void)setConfig:(BOOL)config;
+- (BOOL)canConfigure;
+
+- (void)setEmptySelect:(BOOL)select;
+- (BOOL)canEmptySelect;
+
+- (void)setRetainSelection:(BOOL)retain;
+- (BOOL)willRetainSelection;
 
 @end
