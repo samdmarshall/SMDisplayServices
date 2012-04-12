@@ -31,6 +31,8 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 @property (nonatomic, retain) NSArray *displays;
 @property (nonatomic, retain) SMDSScreenControl *displayview;
 
+- (id)initWithFrame:(CGRect)rect;
+
 - (void)update;
 - (void)renderDisplays;
 

@@ -35,7 +35,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 - (id)init {
 	self = [super init];
 	if (self) {
-		self.displayview = [[SMDSScreenControl alloc] initWithFrame:CGRectMake(0,0,750,550)];
+		self.displayview = [[[SMDSScreenControl alloc] initWithFrame:CGRectMake(0,0,750,550)] autorelease];
 		[self update];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDetected:) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 	}
@@ -45,7 +45,7 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 - (id)initWithFrame:(CGRect)rect {
 	self = [super init];
 	if (self) {
-		self.displayview = [[SMDSScreenControl alloc] initWithFrame:rect];
+		self.displayview = [[[SMDSScreenControl alloc] initWithFrame:rect] autorelease];
 		[self update];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDetected:) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 	}
@@ -108,8 +108,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 }
 
 - (void)dealloc {
-	[displays release];
-	[displayview release];
 	[super dealloc];
 }
 
