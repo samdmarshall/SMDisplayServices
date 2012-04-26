@@ -18,6 +18,9 @@
 	[controller setRetainSelection:YES];
 	[[window contentView] addSubview:controller.displayview];
 	[controller renderDisplays];
+	[controller setConfig:NO];
+	[controller setEmptySelect:NO];
+	[controller setRetainSelection:YES];
 }
 
 - (IBAction)getDisplay:(id)sender {
