@@ -64,6 +64,10 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 	}
 }
 
+- (NSArray *)windows {
+	
+}
+
 - (void)dealloc {
 	[super dealloc];
 }

@@ -42,5 +42,6 @@ THIS SOFTWARE IS PROVIDED BY Sam Marshall ''AS IS'' AND ANY EXPRESS OR IMPLIED W
 - (id)initWithScreen:(NSScreen *)screen;
 - (void)refresh;
 - (void)detectName;
+- (NSArray *)windows;
 
 @end
